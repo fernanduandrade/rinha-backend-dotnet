@@ -1,0 +1,25 @@
+version: "3.4"
+
+services:
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./postgres.conf:/etc/postgresql/postgres.conf
+      - rinha-dev:/var/lib/postgresql/data/
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=rinha
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    deploy:
+      resources:
+        limits:
+          cpus: "0.70"
+          memory: "400mb"
+
+
+volumes:
+  rinha-dev:
